@@ -1,0 +1,11 @@
+HELP.md
+target/
+proposta/!.mvn/wrapper/maven-wrapper.jar
+proposta/!**/src/main/**/target/
+proposta/!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+proposta/.idea
+proposta/*.iws
+proposta/*.iml
+proposta/*.ipr
