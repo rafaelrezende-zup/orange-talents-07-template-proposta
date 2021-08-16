@@ -31,6 +31,9 @@ public class PropostaController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> cria(@RequestBody @Valid PropostaRequest dto) {
+        Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(dto.getDocumento());
+        if (possivelProposta.isPresent()) return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ErrorHandlerDTO("documento", "Já existe uma proposta registrada neste documento."));
+
         Proposta proposta = dto.toModel();
         propostaRepository.save(proposta);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(proposta.getId()).toUri();
