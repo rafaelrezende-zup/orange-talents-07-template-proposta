@@ -1,14 +1,14 @@
 package br.com.zup.proposta.model;
 
+import br.com.zup.proposta.dto.response.ResultadoAnaliseDTO;
+import br.com.zup.proposta.model.enumeration.EstadoProposta;
 import br.com.zup.proposta.validator.Documento;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -35,6 +35,10 @@ public class Proposta {
     @DecimalMin(value = "0.0")
     private BigDecimal salario;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private EstadoProposta estadoProposta;
+
     @Deprecated
     public Proposta() {
     }
@@ -45,6 +49,7 @@ public class Proposta {
         this.endereco = endereco;
         this.nome = nome;
         this.salario = salario;
+        this.estadoProposta = EstadoProposta.NAO_ELEGIVEL;
     }
 
     public Long getId() {
@@ -69,5 +74,9 @@ public class Proposta {
 
     public BigDecimal getSalario() {
         return salario;
+    }
+
+    public void atualizaStatus(ResultadoAnaliseDTO resultadoAnaliseDTO) {
+        this.estadoProposta = resultadoAnaliseDTO.recuperaEstadoProposta();
     }
 }
