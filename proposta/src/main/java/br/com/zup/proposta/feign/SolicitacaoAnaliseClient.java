@@ -1,7 +1,7 @@
 package br.com.zup.proposta.feign;
 
-import br.com.zup.proposta.dto.request.SolicitacaoAnaliseDTO;
-import br.com.zup.proposta.dto.response.ResultadoAnaliseDTO;
+import br.com.zup.proposta.dto.request.SolicitacaoAnaliseRequest;
+import br.com.zup.proposta.dto.response.ResultadoAnaliseResponse;
 import br.com.zup.proposta.util.Constantes;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface SolicitacaoAnaliseClient {
 
     @PostMapping(value = "/solicitacao")
-    ResultadoAnaliseDTO analise(SolicitacaoAnaliseDTO dto);
+    ResultadoAnaliseResponse analise(SolicitacaoAnaliseRequest dto);
 
 }

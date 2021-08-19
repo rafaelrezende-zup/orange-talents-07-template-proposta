@@ -1,6 +1,6 @@
 package br.com.zup.proposta.model;
 
-import br.com.zup.proposta.dto.response.ResultadoAnaliseDTO;
+import br.com.zup.proposta.dto.response.ResultadoAnaliseResponse;
 import br.com.zup.proposta.model.enumeration.EstadoProposta;
 import br.com.zup.proposta.validator.Documento;
 
@@ -20,6 +20,7 @@ public class Proposta {
 
     @NotBlank
     @Documento
+    @Column(unique = true)
     private String documento;
 
     @Email
@@ -37,7 +38,11 @@ public class Proposta {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private EstadoProposta estadoProposta;
+    private EstadoProposta estado;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "cartao_id", referencedColumnName = "id")
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -49,7 +54,7 @@ public class Proposta {
         this.endereco = endereco;
         this.nome = nome;
         this.salario = salario;
-        this.estadoProposta = EstadoProposta.NAO_ELEGIVEL;
+        this.estado = EstadoProposta.NAO_ELEGIVEL;
     }
 
     public Long getId() {
@@ -76,7 +81,15 @@ public class Proposta {
         return salario;
     }
 
-    public void atualizaStatus(ResultadoAnaliseDTO resultadoAnaliseDTO) {
-        this.estadoProposta = resultadoAnaliseDTO.recuperaEstadoProposta();
+    public EstadoProposta getEstado() {
+        return estado;
+    }
+
+    public void atualizaStatus(ResultadoAnaliseResponse resultadoAnaliseResponse) {
+        this.estado = resultadoAnaliseResponse.recuperaEstadoProposta();
+    }
+
+    public void atualizaCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }
