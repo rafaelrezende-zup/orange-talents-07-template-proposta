@@ -1,6 +1,8 @@
 package br.com.zup.proposta.model;
 
 import br.com.zup.proposta.dto.response.*;
+import br.com.zup.proposta.model.enumeration.EstadoCartao;
+import br.com.zup.proposta.model.enumeration.ResultadoBloqueio;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -55,6 +57,9 @@ public class Cartao {
     @OneToOne(mappedBy = "cartao")
     private Proposta proposta;
 
+    @Enumerated(EnumType.STRING)
+    private EstadoCartao statusCartao;
+
     @Deprecated
     public Cartao() {
     }
@@ -87,6 +92,10 @@ public class Cartao {
         return id;
     }
 
+    public String getNumero() {
+        return numero;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,5 +107,12 @@ public class Cartao {
     @Override
     public int hashCode() {
         return Objects.hash(numero);
+    }
+
+    public void bloqueiaCartao(BloqueioCartaoResponse bloqueioCartaoResponse, String userAgent, String ip) {
+        if (bloqueioCartaoResponse.getBloqueio().equals(ResultadoBloqueio.BLOQUEADO)) {
+            this.statusCartao = EstadoCartao.BLOQUEADO;
+            this.bloqueios.add(new Bloqueio(this, userAgent, ip));
+        }
     }
 }
