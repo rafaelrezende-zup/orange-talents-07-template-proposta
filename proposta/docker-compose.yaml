@@ -150,6 +150,7 @@ services:
       URL_DATABASE: jdbc:postgresql://postgres:5432/proposta
       DB_USER: keycloak
       DB_PASSWORD: password
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     depends_on:
       - postgres
 

@@ -14,7 +14,7 @@ public interface CartaoClient {
     @GetMapping(value = "/cartoes")
     CartaoResponse analise(@RequestParam Long idProposta);
 
-    @PostMapping("/cartoes/{id}/bloqueios")
+    @PostMapping(value = "/cartoes/{id}/bloqueios")
     BloqueioCartaoResponse bloqueiaCartao(@PathVariable String id, @RequestBody Map<String, String> body);
 
 }

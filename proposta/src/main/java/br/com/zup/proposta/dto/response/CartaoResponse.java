@@ -39,7 +39,7 @@ public class CartaoResponse {
     private Long idProposta;
 
     public Cartao toModel(PropostaRepository propostaRepository) {
-        Proposta proposta = propostaRepository.getById(idProposta);
+        Proposta proposta = propostaRepository.getOne(idProposta);
         return new Cartao(this.id,
                 this.emitidoEm,
                 this.titular,
