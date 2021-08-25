@@ -1,5 +1,7 @@
 package br.com.zup.proposta.feign;
 
+import br.com.zup.proposta.dto.request.AvisoClientRequest;
+import br.com.zup.proposta.dto.response.AvisoClientResponse;
 import br.com.zup.proposta.dto.response.BloqueioCartaoResponse;
 import br.com.zup.proposta.dto.response.CartaoResponse;
 import br.com.zup.proposta.util.Constantes;
@@ -16,5 +18,8 @@ public interface CartaoClient {
 
     @PostMapping(value = "/cartoes/{id}/bloqueios")
     BloqueioCartaoResponse bloqueiaCartao(@PathVariable String id, @RequestBody Map<String, String> body);
+
+    @PostMapping(value = "/cartoes/{id}/avisos")
+    AvisoClientResponse avisoCartao(@PathVariable String id, AvisoClientRequest avisoClientRequest);
 
 }

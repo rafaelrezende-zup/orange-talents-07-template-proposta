@@ -115,4 +115,8 @@ public class Cartao {
             this.bloqueios.add(new Bloqueio(this, userAgent, ip));
         }
     }
+
+    public void adicionaAviso(Aviso aviso) {
+        this.avisos.add(aviso);
+    }
 }
