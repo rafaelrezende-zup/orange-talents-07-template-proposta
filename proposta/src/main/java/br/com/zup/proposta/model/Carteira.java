@@ -1,6 +1,7 @@
 package br.com.zup.proposta.model;
 
 import br.com.zup.proposta.dto.response.CarteiraResponse;
+import br.com.zup.proposta.model.enumeration.TipoCarteira;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,9 @@ public class Carteira {
 
     private String emissor;
 
+    @Enumerated(EnumType.STRING)
+    private TipoCarteira tipoCarteira;
+
     @ManyToOne
     @JoinColumn(name = "cartao_id")
     private Cartao cartao;
@@ -36,6 +40,39 @@ public class Carteira {
 
     @Deprecated
     public Carteira() {
+    }
+
+    public Carteira(String email, TipoCarteira carteira, Cartao cartao, String id) {
+        this.codigo = id;
+        this.email = email;
+        this.tipoCarteira = carteira;
+        this.dataAssociacao = LocalDateTime.now();
+        this.cartao = cartao;
+        this.emissor = "api-proposta";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public LocalDateTime getDataAssociacao() {
+        return dataAssociacao;
+    }
+
+    public String getEmissor() {
+        return emissor;
+    }
+
+    public TipoCarteira getTipoCarteira() {
+        return tipoCarteira;
+    }
+
+    public Cartao getCartao() {
+        return cartao;
     }
 
     @Override

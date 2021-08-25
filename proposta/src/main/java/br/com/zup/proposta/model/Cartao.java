@@ -96,6 +96,14 @@ public class Cartao {
         return numero;
     }
 
+    public LocalDateTime getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public String getTitular() {
+        return titular;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,5 +126,9 @@ public class Cartao {
 
     public void adicionaAviso(Aviso aviso) {
         this.avisos.add(aviso);
+    }
+
+    public void adicionaCarteira(Carteira carteira) {
+        this.carteiras.add(carteira);
     }
 }

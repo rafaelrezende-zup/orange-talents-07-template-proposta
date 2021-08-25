@@ -38,6 +38,12 @@ public class CartaoResponse {
 
     private Long idProposta;
 
+    public CartaoResponse(Cartao cartao) {
+        this.id = cartao.getId().toString();
+        this.titular = cartao.getTitular();
+        this.emitidoEm = cartao.getDataEmissao();
+    }
+
     public Cartao toModel(PropostaRepository propostaRepository) {
         Proposta proposta = propostaRepository.getOne(idProposta);
         return new Cartao(this.id,

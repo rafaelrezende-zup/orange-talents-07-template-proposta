@@ -44,7 +44,7 @@ public class PropostaController {
         Optional<Proposta> possivelProposta = propostaRepository.findByDocumento(dto.getDocumento());
         if (possivelProposta.isPresent()) return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(new ErrorHandlerDTO("documento", "Já existe uma proposta registrada neste documento."));
 
-        logger.trace("Preparando para salvar proposta.");
+        logger.debug("Preparando para salvar proposta.");
 
         Proposta proposta = dto.toModel();
         transaction.inTransaction(() -> {
@@ -53,7 +53,7 @@ public class PropostaController {
         });
 
         try {
-            logger.trace("Preparando para solicitar analise de proposta");
+            logger.debug("Preparando para solicitar analise de proposta");
 
             SolicitacaoAnaliseRequest analiseRequest = new SolicitacaoAnaliseRequest(proposta);
             ResultadoAnaliseResponse resultadoAnaliseResponse = analiseClient.analise(analiseRequest);
@@ -68,6 +68,7 @@ public class PropostaController {
             transaction.inTransaction(() -> {
                 proposta.atualizaStatus(new ResultadoAnaliseResponse(ResultadoAnalise.COM_RESTRICAO));
                 logger.error("Erro ao realizar Análise da Proposta. " + proposta.toString());
+                logger.error("FeignException " + e);
             });
         }
 
@@ -80,7 +81,7 @@ public class PropostaController {
         logger.trace("Iniciando acompanhamento proposta");
         Optional<Proposta> proposta = propostaRepository.findById(id);
         if (proposta.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorHandlerDTO("documento", "Documento de código " + id + " não encontrado."));
-        logger.trace("Proposta encontrada: " + proposta.toString());
+        logger.debug("Proposta encontrada: " + proposta.toString());
         return ResponseEntity.ok(new AcompanhamentoPropostaResponse(proposta.get()));
     }
 }
