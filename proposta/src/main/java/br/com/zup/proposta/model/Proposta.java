@@ -1,5 +1,6 @@
 package br.com.zup.proposta.model;
 
+import br.com.zup.proposta.config.converter.DocumentoConverter;
 import br.com.zup.proposta.dto.response.ResultadoAnaliseResponse;
 import br.com.zup.proposta.model.enumeration.EstadoProposta;
 import br.com.zup.proposta.validator.Documento;
@@ -21,6 +22,7 @@ public class Proposta {
     @NotBlank
     @Documento
     @Column(unique = true)
+    @Convert(converter = DocumentoConverter.class)
     private String documento;
 
     @Email
